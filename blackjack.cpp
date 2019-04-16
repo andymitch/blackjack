@@ -197,6 +197,7 @@ int main(){
 
   while(again != 'n' && money > 0){
     deal(hand, deck);
+    deal(hand, deck);
     deal(dealer, deck); //deals new cards
     deal(dealer, deck);
 
