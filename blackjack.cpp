@@ -3,6 +3,8 @@
 #include <stack>
 #include <algorithm> //shuffle
 #include <random> //random generator
+#include <string> //stoi
+#include <cctype> //isdigit
 using namespace std;
 
 
@@ -65,6 +67,7 @@ string Card::printCard(){
 /******************************************************************************/
 
 stack<Card> getDeck(){
+  cout << "\nShuffling new deck..\n";
   vector<Card> _deck;
   Rank rank = Two;
   Suit suit = club;
@@ -164,10 +167,10 @@ bool result(stack<Card> hand, stack<Card> dealer){
   if(_bust) cout << "Bust! "; //prints if bust
 
   if(win){
-    cout << "You Win!\n\n";
+    cout << "You Win!\n";
     return true; //returns true if player wins
   }else{
-    cout << "You Lose.\n\n";
+    cout << "You Lose.\n";
     return false;
   }
 }
@@ -188,25 +191,65 @@ bool bet(int& money, int amount){
   }
 }
 
+void title(){
+  cout << "\033[2J\033[1;1H"; //clear screen
+  cout << "*************************************************************************************\n";
+  cout << "WELCOME TO BLACKJACK!!!\n\n";
+  cout << "The objecting is to get closer to 21 than the dealer without busting (going over 21).\n";
+  cout << " - Number cards retain their value.\n";
+  cout << " - Face cards are worth 10.\n";
+  cout << " - Aces are worth either 1 or 11.\n";
+  cout << "*************************************************************************************\n";
+}
+
 //MAIN
 /******************************************************************************/
+
+bool isnum(string number){ //if string is a number
+  bool is = true;
+  for(int i = 0; i < number.length(); i++) if(!isdigit(number[i])) is = false;
+  return is;
+}
+
+void quit(int money){ //game over message
+  if(money == 0) cout << "\nYour broke!";
+  else cout << "\nYou walk away with $" << money << endl;
+  cout << "\nGoodbye.\n" << endl;
+}
+
 int main(){
-  int money = 20, pot = 0;
+  title();
+  int money = 20, pot;
+  string spot; //string pot
   stack<Card> hand, dealer, deck;
   char c = 'h', again = 'y'; //choice and yes/no
 
-  while(again != 'n' && money > 0){
+  while(money > 0){
     deal(hand, deck);
     deal(hand, deck);
-    deal(dealer, deck); //deals new cards
     deal(dealer, deck);
+    deal(dealer, deck); //deals new cards
 
-    cout << "\nWhat do you want to bet?\ncurrent balance: $" << money << endl;
-    do{cin >> pot;}while(!bet(money, pot)); //get bet until valid amount
+    cout << "\nWhat do you want to bet? Or (q) to quit.\ncurrent balance: $" << money << endl;
+    do{
+      cin >> spot;
+      if(spot == "q"){ //quit game
+        quit(money);
+        return 0;
+      }
+      else while(!isnum(spot)){
+        if(spot == "q"){ //quit game
+          quit(money);
+          return 0;
+        }
+        cin >> spot; //get bet until integer
+      }
+      pot = stoi(spot); //convert string to int
+    }while(!bet(money, pot)); //get bet until valid amount
 
     while(!bust(hand)){ //while player hasn't busted
       print(hand, dealer); //show cards
-      cout << "\nHit or Stay? (h)/(s) ";
+      cout << "\nHit or Stay? (h/s): ";
       cin >> c;
       switch(c){
         case 'h': deal(hand, deck); //hit
@@ -219,16 +262,13 @@ int main(){
     }
     if(result(hand, dealer)){} //empty if() after while loop to print result assuming that player busted
 
-    cout << "Play again? (y/n): ";
-    do{cin >> again;}while(again != 'y' && again != 'n'); //get decision until valid
+    //cout << "Play again? (y/n): ";
+    //do{cin >> again;}while(again != 'y' && again != 'n'); //get decision until valid
 
     while(!hand.empty()) hand.pop(); //clear cards
     while(!dealer.empty()) dealer.pop(); //clear cards
   }
 
-  if(money == 0) cout << "Your broke!" << endl;
-  else cout << "\nYou walk away with $" << money << endl;
-  cout << "Goodbye.\n" << endl;
-
+  quit(money); //game over, player is broke
   return 0;
 }
