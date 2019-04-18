@@ -72,8 +72,8 @@ string Card::printCard(){
 stack<Card> getDeck(){
   cout << "\nShuffling new deck..\n";
   vector<Card> _deck;
-  Rank rank = Two;
-  Suit suit = club;
+  Rank rank = Two; //lowest rank
+  Suit suit = club; //lowest suit
   for(int i = 0; i < 4; i++){ //get deck of cards sequentially
       for(int j = 0; j < 13; j++){
           _deck.push_back(Card(rank, suit));
@@ -118,8 +118,8 @@ int value(stack<Card> hand){
   }
 
   for(int i = 0; i < ace; i++){ //optimizes ace value of either 1 or 11
-    if(total < 11) total += 11;
-    else total++;
+    if(total < 11) total += 11; //if ace can be worth 11 without busting
+    else total++; //else ace is worth 1
   }
 
   return total;
@@ -182,15 +182,15 @@ bool result(stack<Card> hand, stack<Card> dealer){
 bool bet(int& money, int amount){
   if(amount > money){
     cout << "You can't cover that bet." << endl;
-    return false;
+    return false; //too much amount
 
   }else if(amount < 1){
     cout << "You have to bet something." << endl;
-    return false;
+    return false; //no positive amount
 
   }else{
     money -= amount; //takes amount from money
-    return true; //returns true if works
+    return true;
   }
 }
 
