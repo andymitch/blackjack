@@ -5,6 +5,9 @@
 #include <random> //random generator
 #include <string> //stoi
 #include <cctype> //isdigit
+#include <fstream> //high score
+#include <iomanip> //set width
+
 using namespace std;
 
 
@@ -217,6 +220,67 @@ void quit(int money){ //game over message
   cout << "\nGoodbye.\n" << endl;
 }
 
+void highScore(int _score){
+  int scores[5]{0,0,0,0,0};
+  string names[5]{"*","*","*","*","*"};
+  int score = _score;
+  string name = " ";
+
+  //get high scores
+  ifstream infile;
+  infile.open("highscore.txt");
+  int i = 0;
+  while(infile){
+    infile >> scores[i];
+    infile >> names[i];
+    i++;
+  }
+  infile.close();
+
+  //sort high scores
+  for(int i = 0; i < 5; i++){
+    if(score > scores[i]){
+      int s = score;
+      string n = name;
+      score = scores[i];
+      name = names[i];
+      scores[i] = s;
+      names[i] = n;
+    }
+  }
+
+  //get name for high score
+  for(int i = 0; i < 5; i++){
+    if(scores[i] < _score){
+      cout << "\nNew High Score!!\n\nWhat's your name?: ";
+      cin >> name;
+      names[i-1] = name;
+      cout << "\n\n";
+      break;
+    }
+  }
+
+  //print high scores
+  cout << "*************************************************************************************\n";
+  for(int i = 0; i < 5; i++){
+    cout << i+1 << ".\t";
+    if(scores[i] > 0) cout << setw(6) << left << scores[i];
+    else cout << setw(6) << right << " ";
+    if(names[i] != "*") cout << "\t" << names[i] << endl;
+    else cout << "\t" << endl;
+  }
+  cout << "*************************************************************************************\n";
+
+  //save high scores
+  ofstream outfile;
+  outfile.open("highscore.txt");
+  for(int i = 0; i < 5; i++){
+    outfile << scores[i] << " ";
+    outfile << names[i] << " ";
+  }
+  outfile.close();
+}
+
 int main(){
   title();
   int money = 20, pot;
@@ -235,6 +299,7 @@ int main(){
       cin >> spot;
       if(spot == "q"){ //quit game
         quit(money);
+        highScore(money);
         return 0;
       }
       else while(!isnum(spot)){
@@ -261,9 +326,6 @@ int main(){
       if(c == 's') break; //if stay, break while loop
     }
     if(result(hand, dealer)){} //empty if() after while loop to print result assuming that player busted
-
-    //cout << "Play again? (y/n): ";
-    //do{cin >> again;}while(again != 'y' && again != 'n'); //get decision until valid
 
     while(!hand.empty()) hand.pop(); //clear cards
     while(!dealer.empty()) dealer.pop(); //clear cards
