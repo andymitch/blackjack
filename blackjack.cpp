@@ -220,8 +220,7 @@ void quit(int money){
   int score = money;
   string name = " ";
 
-  if(money == 0) cout << "\nYour broke!";
-  else cout << "\nYou walk away with $" << money << endl;
+  if(money != 0) cout << "\nYou walk away with $" << money << endl;
 
   //get high scores
   ifstream infile;
@@ -260,6 +259,8 @@ void quit(int money){
   }
 
   //print high scores
+  cout << "\n\n************************************************************************************\n";
+  cout << "\t- High Scores - \n";
   cout << "************************************************************************************\n";
   for(int i = 0; i < 5; i++){
     cout << i+1 << ".\t";
@@ -280,59 +281,72 @@ void quit(int money){
     }
     outfile.close();
   }
+}
 
-  cout << "\nGoodbye.\n" << endl;
+bool lose(){
+  char c;
+  cout << "\nYour broke!\nWould you like to play again? (y/n): ";
+  do{
+    cin >> c;
+  }while(c != 'y' && c != 'n');
+  if(c == 'y') return false;
+  else return true;
 }
 
 int main(){
   title();
-  int money = 20, pot;
-  string spot; //string pot
-  stack<Card> hand, dealer, deck;
-  char c = 'h', again = 'y'; //choice and yes/no
+  while(true){
+    int money = 20, pot;
+    string spot; //string pot
+    stack<Card> hand, dealer, deck;
+    char c = 'h', again = 'y'; //choice and yes/no
 
-  while(money > 0){
-    deal(hand, deck);
-    deal(hand, deck);
-    deal(dealer, deck);
-    deal(dealer, deck); //deals new cards
+    while(money > 0){
+      deal(hand, deck);
+      deal(hand, deck);
+      deal(dealer, deck);
+      deal(dealer, deck); //deals new cards
 
-    cout << "\nWhat do you want to bet? Or (q) to quit.\ncurrent balance: $" << money << endl;
-    do{
-      cin >> spot;
-      if(spot == "q"){ //quit game
-        quit(money);
-        return 0;
-      }
-      else while(!isnum(spot)){
+      cout << "\nWhat do you want to bet? Or (q) to quit.\ncurrent balance: $" << money << endl;
+      do{
+        cin >> spot;
         if(spot == "q"){ //quit game
           quit(money);
           return 0;
         }
-        cin >> spot; //get bet until integer
-      }
-      pot = stoi(spot); //convert string to int
-    }while(!bet(money, pot)); //get bet until valid amount
+        else while(!isnum(spot)){
+          if(spot == "q"){ //quit game
+            quit(money);
+            return 0;
+          }
+          cin >> spot; //get bet until integer
+        }
+        pot = stoi(spot); //convert string to int
+      }while(!bet(money, pot)); //get bet until valid amount
 
-    while(!bust(hand)){ //while player hasn't busted
-      print(hand, dealer); //show cards
-      cout << "\nHit or Stay? (h/s): ";
-      cin >> c;
-      switch(c){
-        case 'h': deal(hand, deck); //hit
-          break;
-        case 's': if(result(hand, dealer)) money += (2*pot); //stay. If result() returns true, player wins the bet.
-          break;
-        default: cout << "Invalid." << endl; // neither 'h' or 's', repeat while loop
+      while(!bust(hand)){ //while player hasn't busted
+        print(hand, dealer); //show cards
+        cout << "\nHit or Stay? (h/s): ";
+        cin >> c;
+        switch(c){
+          case 'h': deal(hand, deck); //hit
+            break;
+          case 's': if(result(hand, dealer)) money += (2*pot); //stay. If result() returns true, player wins the bet.
+            break;
+          default: cout << "Invalid." << endl; // neither 'h' or 's', repeat while loop
+        }
+        if(c == 's') break; //if stay, break while loop
       }
-      if(c == 's') break; //if stay, break while loop
+      if(result(hand, dealer)){} //empty if() after while loop to print result assuming that player busted
+
+      while(!hand.empty()) hand.pop(); //clear cards
+      while(!dealer.empty()) dealer.pop(); //clear cards
     }
-    if(result(hand, dealer)){} //empty if() after while loop to print result assuming that player busted
 
-    while(!hand.empty()) hand.pop(); //clear cards
-    while(!dealer.empty()) dealer.pop(); //clear cards
+    if(lose()){ //game over, player is broke
+      quit(money);
+      cout << "\nGoodbye.\n" << endl;
+      return 0;
+    }
   }
-
-  quit(money); //game over, player is broke
-  return 0;
 }
