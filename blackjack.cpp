@@ -196,13 +196,13 @@ bool bet(int& money, int amount){
 
 void title(){
   cout << "\033[2J\033[1;1H"; //clear screen
-  cout << "*************************************************************************************\n";
+  cout << "************************************************************************************\n";
   cout << "WELCOME TO BLACKJACK!!!\n\n";
-  cout << "The objecting is to get closer to 21 than the dealer without busting (going over 21).\n";
+  cout << "The objective is to get closer to 21 than the dealer without busting (going over 21)\n";
   cout << " - Number cards retain their value.\n";
   cout << " - Face cards are worth 10.\n";
   cout << " - Aces are worth either 1 or 11.\n";
-  cout << "*************************************************************************************\n";
+  cout << "************************************************************************************\n";
 }
 
 //MAIN
@@ -261,7 +261,7 @@ void highScore(int _score){
   }
 
   //print high scores
-  cout << "*************************************************************************************\n";
+  cout << "************************************************************************************\n";
   for(int i = 0; i < 5; i++){
     cout << i+1 << ".\t";
     if(scores[i] > 0) cout << setw(6) << left << scores[i];
@@ -269,7 +269,7 @@ void highScore(int _score){
     if(names[i] != "*") cout << "\t" << names[i] << endl;
     else cout << "\t" << endl;
   }
-  cout << "*************************************************************************************\n";
+  cout << "************************************************************************************\n";
 
   //save high scores
   ofstream outfile;
