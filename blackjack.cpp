@@ -214,17 +214,14 @@ bool isnum(string number){ //if string is a number
   return is;
 }
 
-void quit(int money){ //game over message
-  if(money == 0) cout << "\nYour broke!";
-  else cout << "\nYou walk away with $" << money << endl;
-  cout << "\nGoodbye.\n" << endl;
-}
-
-void highScore(int _score){
+void quit(int money){
   int scores[5]{0,0,0,0,0};
   string names[5]{"*","*","*","*","*"};
-  int score = _score;
+  int score = money;
   string name = " ";
+
+  if(money == 0) cout << "\nYour broke!";
+  else cout << "\nYou walk away with $" << money << endl;
 
   //get high scores
   ifstream infile;
@@ -238,8 +235,10 @@ void highScore(int _score){
   infile.close();
 
   //sort high scores
+  bool newHigh = false;
   for(int i = 0; i < 5; i++){
     if(score > scores[i]){
+      newHigh = true;
       int s = score;
       string n = name;
       score = scores[i];
@@ -251,7 +250,7 @@ void highScore(int _score){
 
   //get name for high score
   for(int i = 0; i < 5; i++){
-    if(scores[i] < _score){
+    if(scores[i] < money){
       cout << "\nNew High Score!!\n\nWhat's your name?: ";
       cin >> name;
       names[i-1] = name;
@@ -272,13 +271,17 @@ void highScore(int _score){
   cout << "************************************************************************************\n";
 
   //save high scores
-  ofstream outfile;
-  outfile.open("highscore.txt");
-  for(int i = 0; i < 5; i++){
-    outfile << scores[i] << " ";
-    outfile << names[i] << " ";
+  if(newHigh){
+    ofstream outfile;
+    outfile.open("highscore.txt");
+    for(int i = 0; i < 5; i++){
+      outfile << scores[i] << " ";
+      outfile << names[i] << " ";
+    }
+    outfile.close();
   }
-  outfile.close();
+
+  cout << "\nGoodbye.\n" << endl;
 }
 
 int main(){
@@ -299,7 +302,6 @@ int main(){
       cin >> spot;
       if(spot == "q"){ //quit game
         quit(money);
-        highScore(money);
         return 0;
       }
       else while(!isnum(spot)){
