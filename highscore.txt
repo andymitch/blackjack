@@ -1,1 +1,1 @@
-8000 Katie 100 Andy 100 Finn 60 Andrew 40 Andy 
+8000 Katie 200 Andrew 100 Finn 100 Drew 100 Andy 
