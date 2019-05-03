@@ -135,8 +135,9 @@ void print(stack<Card> hand, stack<Card> dealer){
   cout << "\033[2J\033[1;1H"; //clear screen
 
   cout << "\nDealer: " << dealer.top(); //print one dealer card
+  cout << "[  ]" << endl;
 
-  cout << "\n   You: ";
+  cout << "   You: ";
   while(!hand.empty()){ //print all player cards
     cout << hand.top();
     hand.pop();
