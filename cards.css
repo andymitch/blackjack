@@ -1,0 +1,97 @@
+body {
+    background-color: darkgreen;
+    z-index: 0;
+    position: relative;
+}
+
+p {
+    margin: 8px;
+    font-size: 30pt;
+    text-align: center;
+}
+
+button {
+    background-color: indianred;
+    border-style: none;
+    width: 200px;
+    height: 90px;
+    margin-bottom: 5.2px;
+    border-radius: 20px;
+    font-size: 40px;
+    letter-spacing: 1px;
+}
+
+button:focus {
+    outline: 0;
+}
+
+#hand {
+    height: 3.5in;
+    position: static;
+}
+
+.card {
+    height: 1cm;
+    width: 5cm;
+    background-color: antiquewhite;
+    display: inline-table;
+    border-radius: 20px;
+    opacity: 0;
+}
+
+.suit {
+    margin-top: 10pt;
+    margin-bottom: 10pt;
+    font-size: 100pt;
+    text-align: center;
+}
+
+.upper {
+    text-align: left;
+}
+
+.lower {
+    text-align: end;
+}
+
+#score {
+    display: inline-flex;
+}
+
+.banner {
+    position: absolute;
+    margin-top: 10%;
+    left: 50%;
+}
+
+.else {
+    position: absolute;
+    margin-top: 10%;
+    left: 10%;
+}
+
+#win,
+#lose,
+#bust,
+#tie {
+    position: absolute;
+    transform: translate(-50%, 0);
+    opacity: 0;
+}
+
+#again {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 3in);
+    font-size: 20px;
+    display: flex;
+    opacity: 0;
+}
+
+#yes {
+    background-color: green;
+}
+
+#no {
+    background-color: red;
+}

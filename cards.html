@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="cards.css">
+</head>
+
+<body>
+    <CENTER>
+        <div class="else">
+            <div id="dealer">
+                <div class="card" id="20">
+                    <p id="23" class="upper"></p>
+                    <p class="suit" id="26"></p>
+                    <p id="29" class="lower"></p>
+                </div>
+                <div class="card" id="21">
+                    <p id="24" class="upper"></p>
+                    <p class="suit" id="27"></p>
+                    <p id="30" class="lower"></p>
+                </div>
+                <div class="card" id="22">
+                    <p id="25" class="upper"></p>
+                    <p class="suit" id="28"></p>
+                    <p id="31" class="lower"></p>
+                </div>
+            </div>
+            <div id="hand">
+                <div class="card" id="15" onclick='show(0)'>
+                    <p id="0" class="upper"></p>
+                    <p class="suit" id="5"></p>
+                    <p id="10" class="lower"></p>
+                </div>
+                <div class="card" id="16" onclick='show(1)'>
+                    <p id="1" class="upper"></p>
+                    <p class="suit" id="6"></p>
+                    <p id="11" class="lower"></p>
+                </div>
+                <div class="card" id="17" onclick='show(2)'>
+                    <p id="2" class="upper"></p>
+                    <p class="suit" id="7"></p>
+                    <p id="12" class="lower"></p>
+                </div>
+                <div class="card" id="18" onclick='show(3)'>
+                    <p id="3" class="upper"></p>
+                    <p class="suit" id="8"></p>
+                    <p id="13" class="lower"></p>
+                </div>
+                <div class="card" id="19" onclick='show(4)'>
+                    <p id="4" class="upper"></p>
+                    <p class="suit" id="9"></p>
+                    <p id="14" class="lower"></p>
+                </div>
+            </div>
+            <button onclick='stay()'>stay</button>
+            <button onclick='hit()'>hit</button>
+            <br>
+            <div id="score">
+                <p>You: </p>
+                <h1 id="Player">0</h1>
+                <p>Dealer: </p>
+                <h1 id="Dealer">0</h1>
+            </div>
+        </div>
+        <div class="banner">
+            <img src="./winner.png" alt="winner" id="win">
+            <img src="./loser.png" alt="loser" id="lose">
+            <img src="./bust.png" alt="bust" id="bust">
+            <img src="./tie.png" alt="tie" id="tie">
+            <div id="again">
+                <button id="yes" onclick="again()">YES</button>
+                <p>Play Again?</p>
+                <button id="no" onclick="location.href='./NodeSite/website/home.html'">NO</button>
+            </div>
+        </div>
+    </CENTER>
+</body>
+<script src="cards.js"></script>
