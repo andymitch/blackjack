@@ -14,7 +14,7 @@ using namespace std;
 //CARD STRUCT
 /******************************************************************************/
 enum Suit{club, diamond, heart, spade};
-enum Rank{Two = 2,Three = 3,Four = 4,Five = 5,Six = 6,Seven = 7,Eight = 8,Nine = 9,Ten = 10,Jack = 11,Queen = 12,King = 13,Ace = 14};
+enum Rank{Two = 2, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace};
 
 struct Card{
     Rank rank;
@@ -116,11 +116,14 @@ int value(stack<Card> hand){
     else if(value == 14) ace++; //if ace
     else total += value; //if number card
   }
-
-  for(int i = 0; i < ace; i++){ //optimizes ace value of either 1 or 11
-    if(total < 11) total += 11; //if ace can be worth 11 without busting
-    else total++; //else ace is worth 1
-  }
+  
+  if(ace == 1){
+    if(total < 11) total += 11;
+    else total++;
+  }else if(ace == 2){
+    if(total < 10) total += 12;
+    else total += 2;
+  }else if(ace > 2) total += ace;
 
   return total;
 }
@@ -194,6 +197,7 @@ bool bet(int& money, int amount){
     return true;
   }
 }
+
 
 void title(){
   cout << "\033[2J\033[1;1H"; //clear screen
